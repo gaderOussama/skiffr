@@ -1,9 +1,0 @@
-real postgres: pgvector/pgvector:pg17 (PostgreSQL 17.11, vector 0.8.7), migrated with createDb + runMigrations. no hnsw index (indexes: answer_pkey, answer_user_label_unique).
-findSimilarAnswers(db, user, q, 10) compared with a js brute force cosine sort, random 1536 dim vectors
-
-5000-row user, 5000 rows in table:        30 queries, 30 full 10 rows, 30 identical to brute force
-5000-row user, 25000-row table (51 users): 30 queries, 30 full, 30 identical
-50 users x 400 rows:                       60 queries, 60 full, 60 identical
-
-explain (limit 10, 5000-row user): Sort -> Bitmap Heap Scan on answer -> Bitmap Index Scan on answer_user_label_unique (user_id = 'big')
-explain (limit 10, 400-row user):  same plan
